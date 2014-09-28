@@ -1,0 +1,27 @@
+name: EpicDrop
+main: net.unknown.epicdrop.Core
+version: '1.1.1'
+author: 'Unknown'
+
+commands:
+    edrop:
+      description: This is the basic on/off command.
+      usage: /eDrop
+      permission: EpicServer.Admin.eDrop
+      permission-message: You don't have EpicServer.Admin.eDrop
+permissons:
+   admin.*:
+       description: Gives acces to all EpicDrop commands.
+       children:
+            admin.edrop: true
+            admin.drops: true
+            admin.reload: true
+   admin.edrop:
+       description: Allows you to turn on/off EpicDrop.
+       default: op
+   admin.drops:
+       description: Allows you to turn on/off Drops.
+       default: op
+   admin.reload:
+       description: Allows you to reload the plugin.
+       default: op
