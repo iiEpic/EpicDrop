@@ -65,4 +65,21 @@ public class MobDeath {
 		
 	}
 	
+	//Adds money to your account after kill if Enabled
+	public static void addMoney(EntityType Entity, Player p, EntityDeathEvent ede){
+		
+		FileConfiguration gc = Core.plugin.getConfig();
+		
+		if(Globals.Debug){
+			p.sendMessage(Globals.Debug(Entity.name()));
+			p.sendMessage(Globals.Debug(gc.getString("eDrop.Mobs." + Entity.name() + ".MoneyDrop")));
+		}
+		
+		Double amount = gc.getDouble("eDrop.Mobs." + Entity.name() + ".MoneyDrop"); //Finds out how much money to give
+		
+		Globals.economy.depositPlayer(p, amount);
+		p.sendMessage(amount + " added to your account!");
+		
+	}
+	
 }

@@ -1,11 +1,13 @@
 package net.unknown.epicdrop;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Core extends JavaPlugin {
@@ -18,6 +20,7 @@ public class Core extends JavaPlugin {
 			getConfig().set("eDrop.InventoryPlacing", true);
 			getConfig().set("eDrop.BothDrops", true);
 			getConfig().set("eDrop.PlayerDrops", true);
+			getConfig().set("eDrop.MoneyDrop", true);
 			getConfig().set("eDrop.Setup", false);
 			getConfig().set("eDrop.ResetAll", true);
 			getConfig().set("eDrop.CustomHealth.Normal", false);
@@ -27,6 +30,7 @@ public class Core extends JavaPlugin {
 			Globals.InventoryPlacing 		= true;
 			Globals.BothDrops 	= true;
 			Globals.PlayerDrops = true;
+			Globals.MoneyDrop	= true;
 			Globals.Debug		= true;
 			Globals.Setup		= false;
 			Globals.ResetAll	= true;
@@ -37,6 +41,7 @@ public class Core extends JavaPlugin {
 		Globals.InventoryPlacing 	= getConfig().getBoolean("eDrop.InventoryPlacing");
 		Globals.BothDrops 			= getConfig().getBoolean("eDrop.BothDrops");
 		Globals.PlayerDrops			= getConfig().getBoolean("eDrop.PlayerDrops");
+		Globals.MoneyDrop			= getConfig().getBoolean("eDrop.MoneyDrop");
 		Globals.Debug				= false;
 		Globals.Setup				= getConfig().getBoolean("eDrop.Setup");
 		Globals.ResetAll			= getConfig().getBoolean("eDrop.ResetAll");
@@ -51,6 +56,7 @@ public class Core extends JavaPlugin {
     	getConfig().set("eDrop.InventoryPlacing", Globals.InventoryPlacing);
     	getConfig().set("eDrop.BothDrops", Globals.BothDrops);
     	getConfig().set("eDrop.PlayerDrops", Globals.PlayerDrops);
+    	getConfig().set("eDrop.MoneyDrop", Globals.MoneyDrop);
     	getConfig().set("eDrop.Setup", Globals.Setup);
     	getConfig().set("eDrop.ResetAll", Globals.ResetAll);
     	getConfig().set("eDrop.CustomHealth.Normal", Globals.CustomHealthNormal);
@@ -65,6 +71,7 @@ public class Core extends JavaPlugin {
         MobSettings.Setup();
         PluginManager p = this.getServer().getPluginManager();
         p.registerEvents(new Listeners(), this);
+        setupEconomy();
     }
  
     public void onDisable() {
@@ -72,15 +79,29 @@ public class Core extends JavaPlugin {
         saveConfig();
     }
     
+    
+    // Setups Economy for use 
+    private boolean setupEconomy()
+    {
+        RegisteredServiceProvider<Economy> economyProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.economy.Economy.class);
+        if (economyProvider != null) {
+            Globals.economy = economyProvider.getProvider();
+        }
+
+        return (Globals.economy != null);
+    }
+    
+    
     @Override
-	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-		
+    public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
     	
+    	// All Below are EpicDrop Commands
 		if(label.equalsIgnoreCase("edrop")){
 			
 			if(args.length <= 0){
-				sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop customhealth normal \n/edrop customhealth nether \n/edrop resetall \n/edrop debug");
+				sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 				return true;
+				
 			}else{
 				
 				// Turns on eDrop \\
@@ -108,9 +129,8 @@ public class Core extends JavaPlugin {
 					}
 				}
 				
-				// Show Status of Plugin \\
+				// Show Status of Plugin
 				if(args[0].equalsIgnoreCase("status")){
-					sender.sendMessage("[Debug]: " + Globals.CustomHealthNormal);
 					saveStates();
 					getStatus();
 					if(args.length > 1){
@@ -126,6 +146,7 @@ public class Core extends JavaPlugin {
 							"Version: " + Globals.Version(1) + "\n"
 						+   "EpicDrop: " + CheckState(Globals.Enabled) + "\n"
 						+   "BothDrops: " + CheckState(Globals.BothDrops) + "\n"
+						+   "MoneyDrop: " + CheckState(Globals.MoneyDrop) + "\n"
 						+ 	"PlayerDrops: " + CheckState(Globals.PlayerDrops) + "\n"
 						+	"InventoryPlacing: " + CheckState(Globals.InventoryPlacing) + "\n"
 						+	"CustomHealth Normal: " + CheckState(Globals.CustomHealthNormal) + "\n"
@@ -183,7 +204,7 @@ public class Core extends JavaPlugin {
 					}
 				}
 				
-				// Turns on/off Default Drops
+				// Turns on/off Health
 				if(args[0].equalsIgnoreCase("Health")){
 					if(args.length > 1){
 						if(args[1].equalsIgnoreCase("Normal")){
@@ -208,17 +229,6 @@ public class Core extends JavaPlugin {
 								return true;
 							}
 						}
-					}
-					
-					
-					if(Globals.BothDrops){ 
-						Globals.BothDrops = false;
-						sender.sendMessage(Globals.name + "Default Drops have been Disabled!");
-						return true;
-					}else{ 
-						Globals.BothDrops = true;
-						sender.sendMessage(Globals.name + "Default Drops have been Enabled!");
-						return true;
 					}
 				}
 				
@@ -252,19 +262,30 @@ public class Core extends JavaPlugin {
 					
 				}
 				
+				//Turns on/off Money Drops
+				if(args[0].equalsIgnoreCase("moneydrop")){
+					if(Globals.MoneyDrop){ 
+						Globals.MoneyDrop = false;
+						sender.sendMessage(Globals.name + "Money Drops have been Disabled!");
+						return true;
+					}else{ 
+						Globals.MoneyDrop = true;
+						sender.sendMessage(Globals.name + "Money Drops have been Enabled!");
+						return true;
+					}
+				}
+				
 				
 			}
 			
-			sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop customhealth normal \n/edrop customhealth nether \n/edrop resetall \n/edrop debug");
+			sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 			return true;
 			
 		}
 		
-		
-		
 		return false;
 	}
-    
+    	
     public static String CheckState(Boolean s){
     	String state;
     	if(s == true){
@@ -274,11 +295,6 @@ public class Core extends JavaPlugin {
     	}
     	
 		return state;
-    }
-    
-    public static boolean CheckPermission(Player p, Command cmd){
-    	if(!p.hasPermission(cmd.getPermission())){ p.sendMessage(cmd.getPermissionMessage()); return true;}
-		return false;
     }
     
 }

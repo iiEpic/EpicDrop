@@ -1,5 +1,7 @@
 package net.unknown.epicdrop;
 
+import net.milkbowl.vault.economy.Economy;
+
 import org.bukkit.ChatColor;
 
 public class Globals {
@@ -22,6 +24,10 @@ public class Globals {
 	public static boolean Debug;
 	public static boolean CustomHealthNormal;
 	public static boolean CustomHealthNether;
+	public static boolean MoneyDrop;
+	
+	// Economy Vault Variables
+	public static Economy economy = null;
 	
 	/** Displays the Version (4 Formats)
 	 * @param type The different format of how Version is displayed.

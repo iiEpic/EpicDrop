@@ -1,5 +1,6 @@
 package net.unknown.epicdrop;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -16,6 +17,11 @@ public class Listeners implements Listener{
 		if(p == null){return;}
 		if(!Globals.Enabled){return;}
 		
+		if(Globals.MoneyDrop){
+			Player pl = Bukkit.getPlayer(p.getUniqueId());
+			MobDeath.addMoney(e.getEntityType(), pl, e);
+		}
+		
 		if(Globals.InventoryPlacing){
 			MobDeath.checkMobInventoy(e.getEntityType(), p, e);
 			return;
@@ -23,8 +29,6 @@ public class Listeners implements Listener{
 			MobDeath.checkMobDrop(e.getEntityType(), e, p);
 			return;
 		}
-		
-		
 		
     }
 	
@@ -37,8 +41,11 @@ public class Listeners implements Listener{
 		
 		MobSpawn.checkMob(e.getEntity(), MobName, Environment);
 		
-		//Bukkit.broadcastMessage("[Debug]: " + e.getEntityType().name());
+		if(Globals.Debug){
+			Bukkit.broadcastMessage("[Debug]: " + e.getEntityType().name());
+		}
 		
 	}
+	
 	
 }
