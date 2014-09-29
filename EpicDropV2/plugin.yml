@@ -1,6 +1,6 @@
 name: EpicDrop
 main: net.unknown.epicdrop.Core
-version: '1.1.1'
+version: '1.2.0'
 author: 'Unknown'
 softdepend: [Vault]
 
@@ -10,16 +10,6 @@ commands:
       usage: /edrop
       permission: EpicServer.Admin.eDrop
       permission-message: You don't have EpicServer.Admin.eDrop
-    bal:
-      description: Used to check the balance of your money.
-      usage: /bal
-      permission: EpicDrop.Bal
-      permission-message: You don't have EpicDrop.Bal
-    balance:
-      description: Used to check the balance of your money.
-      usage: /balance
-      permission: EpicDrop.Balance
-      permission-message: You don't have EpicDrop.Balance
 permissons:
    admin.*:
        description: Gives acces to all EpicDrop commands.

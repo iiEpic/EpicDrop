@@ -9,9 +9,10 @@ public class Globals {
 	public static int Player;
 	
 	public static int MajorBuild = 1;
-	public static int MinorBuild = 1;
-	public static int Revision = 1;
-	public static String Build = "826-20140810-1313";
+	public static int MinorBuild = 2;
+	public static int Revision = 5;
+	public static String Build = "908-20140929-1925";
+	public static String Special = "[Pre-Release]";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
 	// Command Variables //
@@ -25,6 +26,9 @@ public class Globals {
 	public static boolean CustomHealthNormal;
 	public static boolean CustomHealthNether;
 	public static boolean MoneyDrop;
+	public static boolean MDMessages;
+	public static boolean HealthRegen;
+	public static boolean HRMessages;
 	
 	// Economy Vault Variables
 	public static Economy economy = null;
@@ -48,7 +52,11 @@ public class Globals {
 			VM = "[Version] " + MajorBuild + "." + MinorBuild + "." + Revision;
 			break;
 		case 4:
-			VM = "[Version] " + MajorBuild + "." + MinorBuild + "." + Revision + "\nBuild: " + Build;
+			if(Special != ""){
+				VM = "[Version] " + MajorBuild + "." + MinorBuild + "." + Revision + "\nBuild: " + Build + "\nSpecial: " + Special;
+			}else{
+				VM = "[Version] " + MajorBuild + "." + MinorBuild + "." + Revision + "\nBuild: " + Build;
+			}
 			break;
 		}
 		

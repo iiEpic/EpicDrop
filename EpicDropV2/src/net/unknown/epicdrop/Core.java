@@ -21,8 +21,11 @@ public class Core extends JavaPlugin {
 			getConfig().set("eDrop.BothDrops", true);
 			getConfig().set("eDrop.PlayerDrops", true);
 			getConfig().set("eDrop.MoneyDrop", true);
+			getConfig().set("eDrop.HealthRegen", true);
 			getConfig().set("eDrop.Setup", false);
 			getConfig().set("eDrop.ResetAll", true);
+			getConfig().set("eDrop.Messages.MoneyDrop", true);
+			getConfig().set("eDrop.Messages.HealthRegen", true);
 			getConfig().set("eDrop.CustomHealth.Normal", false);
 			getConfig().set("eDrop.CustomHealth.Nether", false);
 			
@@ -31,6 +34,9 @@ public class Core extends JavaPlugin {
 			Globals.BothDrops 	= true;
 			Globals.PlayerDrops = true;
 			Globals.MoneyDrop	= true;
+			Globals.MDMessages	= true;
+			Globals.HealthRegen	= true;
+			Globals.HRMessages	= true;
 			Globals.Debug		= true;
 			Globals.Setup		= false;
 			Globals.ResetAll	= true;
@@ -42,6 +48,9 @@ public class Core extends JavaPlugin {
 		Globals.BothDrops 			= getConfig().getBoolean("eDrop.BothDrops");
 		Globals.PlayerDrops			= getConfig().getBoolean("eDrop.PlayerDrops");
 		Globals.MoneyDrop			= getConfig().getBoolean("eDrop.MoneyDrop");
+		Globals.MDMessages			= getConfig().getBoolean("eDrop.Messages.MoneyDrop");
+		Globals.HealthRegen			= getConfig().getBoolean("eDrop.HealthRegen");
+		Globals.HRMessages			= getConfig().getBoolean("eDrop.Messages.HealthRegen");
 		Globals.Debug				= false;
 		Globals.Setup				= getConfig().getBoolean("eDrop.Setup");
 		Globals.ResetAll			= getConfig().getBoolean("eDrop.ResetAll");
@@ -57,7 +66,10 @@ public class Core extends JavaPlugin {
     	getConfig().set("eDrop.BothDrops", Globals.BothDrops);
     	getConfig().set("eDrop.PlayerDrops", Globals.PlayerDrops);
     	getConfig().set("eDrop.MoneyDrop", Globals.MoneyDrop);
+    	getConfig().set("eDrop.HealthRegen", Globals.HealthRegen);
     	getConfig().set("eDrop.Setup", Globals.Setup);
+    	getConfig().set("eDrop.Messages.MoneyDrop", Globals.MDMessages);
+    	getConfig().set("eDrop.Messages.HealthRegen", Globals.HRMessages);
     	getConfig().set("eDrop.ResetAll", Globals.ResetAll);
     	getConfig().set("eDrop.CustomHealth.Normal", Globals.CustomHealthNormal);
     	getConfig().set("eDrop.CustomHealth.Nether", Globals.CustomHealthNether);
@@ -99,7 +111,11 @@ public class Core extends JavaPlugin {
 		if(label.equalsIgnoreCase("edrop")){
 			
 			if(args.length <= 0){
-				sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
+				sender.sendMessage(Globals.name +
+						"Invalid command. Use the following."
+						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload "
+						+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
+						+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 				return true;
 				
 			}else{
@@ -147,6 +163,7 @@ public class Core extends JavaPlugin {
 						+   "EpicDrop: " + CheckState(Globals.Enabled) + "\n"
 						+   "BothDrops: " + CheckState(Globals.BothDrops) + "\n"
 						+   "MoneyDrop: " + CheckState(Globals.MoneyDrop) + "\n"
+						+	"HealthRegen: " + CheckState(Globals.HealthRegen) + "\n"
 						+ 	"PlayerDrops: " + CheckState(Globals.PlayerDrops) + "\n"
 						+	"InventoryPlacing: " + CheckState(Globals.InventoryPlacing) + "\n"
 						+	"CustomHealth Normal: " + CheckState(Globals.CustomHealthNormal) + "\n"
@@ -275,10 +292,28 @@ public class Core extends JavaPlugin {
 					}
 				}
 				
+				//Turns on/off HealthRegen
+				if(args[0].equalsIgnoreCase("healthregen")){
+					if(Globals.HealthRegen){ 
+						Globals.HealthRegen = false;
+						sender.sendMessage(Globals.name + "HealthRegen has been Disabled!");
+						return true;
+					}else{ 
+						Globals.HealthRegen = true;
+						sender.sendMessage(Globals.name + "HealthRegen has been Enabled!");
+						return true;
+					}
+				}
+				
 				
 			}
+			//Displays all commands when player enters a wrong command.
+			sender.sendMessage(Globals.name +
+					"Invalid command. Use the following."
+					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload "
+					+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
+					+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 			
-			sender.sendMessage(Globals.name + "Invalid command. Use the following.\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop inv \n/edrop BothDrops \n/edrop Playerdrops \n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 			return true;
 			
 		}

@@ -1,5 +1,6 @@
 package net.unknown.epicdrop;
 
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
@@ -78,8 +79,14 @@ public class MobDeath {
 		Double amount = gc.getDouble("eDrop.Mobs." + Entity.name() + ".MoneyDrop"); //Finds out how much money to give
 		
 		Globals.economy.depositPlayer(p, amount);
-		p.sendMessage(amount + " added to your account!");
-		
+		if(Globals.MDMessages){
+			
+			if(amount <= 1){
+				p.sendMessage(ChatColor.GREEN + "" + amount + " " + Globals.economy.currencyNameSingular() + ChatColor.RESET + " added to your account!");
+			}else{
+				p.sendMessage(ChatColor.GREEN + "" + amount + " " + Globals.economy.currencyNamePlural() + ChatColor.RESET + " added to your account!");
+			}
+		}
 	}
 	
 }
