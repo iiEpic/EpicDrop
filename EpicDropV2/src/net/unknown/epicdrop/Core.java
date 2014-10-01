@@ -1,5 +1,7 @@
 package net.unknown.epicdrop;
 
+import java.io.IOException;
+
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
@@ -79,6 +81,14 @@ public class Core extends JavaPlugin {
         	Globals.MoneyDrop = false;
         	Globals.VaultEnabled = false;
         }
+        
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+        }
+        
     }
  
     public void onDisable() {
