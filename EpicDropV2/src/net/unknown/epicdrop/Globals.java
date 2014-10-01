@@ -32,6 +32,7 @@ public class Globals {
 	
 	// Economy Vault Variables
 	public static Economy economy = null;
+	public static boolean VaultEnabled;
 	
 	/** Displays the Version (4 Formats)
 	 * @param type The different format of how Version is displayed.

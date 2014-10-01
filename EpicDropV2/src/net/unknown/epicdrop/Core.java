@@ -28,21 +28,8 @@ public class Core extends JavaPlugin {
 			getConfig().set("eDrop.Messages.HealthRegen", true);
 			getConfig().set("eDrop.CustomHealth.Normal", false);
 			getConfig().set("eDrop.CustomHealth.Nether", false);
-			
-			Globals.Enabled 	= true;
-			Globals.InventoryPlacing 		= true;
-			Globals.BothDrops 	= true;
-			Globals.PlayerDrops = true;
-			Globals.MoneyDrop	= true;
-			Globals.MDMessages	= true;
-			Globals.HealthRegen	= true;
-			Globals.HRMessages	= true;
-			Globals.Debug		= true;
-			Globals.Setup		= false;
-			Globals.ResetAll	= true;
-			Globals.CustomHealthNormal = false;
-			Globals.CustomHealthNether = false;
 		}
+		
 		Globals.Enabled 			= getConfig().getBoolean("eDrop.Enabled");
 		Globals.InventoryPlacing 	= getConfig().getBoolean("eDrop.InventoryPlacing");
 		Globals.BothDrops 			= getConfig().getBoolean("eDrop.BothDrops");
@@ -83,7 +70,15 @@ public class Core extends JavaPlugin {
         MobSettings.Setup();
         PluginManager p = this.getServer().getPluginManager();
         p.registerEvents(new Listeners(), this);
-        setupEconomy();
+        if (getServer().getPluginManager().getPlugin("Vault") != null) {
+            getLogger().info("Detected Vault!");
+            setupEconomy();
+            Globals.VaultEnabled = true;
+        }else{
+        	getLogger().info("Vault wasn't detected!");
+        	Globals.MoneyDrop = false;
+        	Globals.VaultEnabled = false;
+        }
     }
  
     public void onDisable() {
@@ -281,6 +276,12 @@ public class Core extends JavaPlugin {
 				
 				//Turns on/off Money Drops
 				if(args[0].equalsIgnoreCase("moneydrop")){
+					
+					if(!Globals.VaultEnabled){
+						sender.sendMessage("You must install Vault on your server to use this command.");
+						return true;
+					}
+					
 					if(Globals.MoneyDrop){ 
 						Globals.MoneyDrop = false;
 						sender.sendMessage(Globals.name + "Money Drops have been Disabled!");
