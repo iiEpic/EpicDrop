@@ -72,6 +72,8 @@ public class Core extends JavaPlugin {
         MobSettings.Setup();
         PluginManager p = this.getServer().getPluginManager();
         p.registerEvents(new Listeners(), this);
+        
+        //Checks to see if Vault is installed on server
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             getLogger().info("Detected Vault!");
             setupEconomy();
@@ -82,6 +84,7 @@ public class Core extends JavaPlugin {
         	Globals.VaultEnabled = false;
         }
         
+        // Runs McStats!
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();

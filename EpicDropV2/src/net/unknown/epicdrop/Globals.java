@@ -10,9 +10,9 @@ public class Globals {
 	
 	public static int MajorBuild = 1;
 	public static int MinorBuild = 2;
-	public static int Revision = 5;
-	public static String Build = "908-20140929-1925";
-	public static String Special = "[Pre-Release]";
+	public static int Revision = 0;
+	public static String Build = "000-20141004-1418";
+	public static String Special = "";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
 	// Command Variables //
@@ -64,6 +64,7 @@ public class Globals {
 		return VM;
 	}
 	
+	//Debug Method
 	public static String Debug(String message){
 		message = Globals.name + "[Debug] " + message;
 		return message;

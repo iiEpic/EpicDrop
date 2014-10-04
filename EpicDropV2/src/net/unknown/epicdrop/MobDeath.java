@@ -24,12 +24,14 @@ public class MobDeath {
 	public static void checkMobDrop(EntityType Entity, EntityDeathEvent e, Player p){
 		FileConfiguration gc = Core.plugin.getConfig();
 		
+		//Checks to see if killed entity is a Player
 		if(Entity.equals(EntityType.PLAYER)){
 			if(!Globals.PlayerDrops){e.getDrops().clear();}
 		}else{
 			if(!Globals.BothDrops){ e.getDrops().clear(); };
 		}
 		
+		//Shows Killed Entity and What item is in config according to said Entity.
 		if(Globals.Debug){
 			p.sendMessage(Globals.Debug(Entity.name()));
 			p.sendMessage(Globals.Debug(gc.getString("eDrop.Mobs." + Entity.name() + ".Item")));
@@ -48,21 +50,23 @@ public class MobDeath {
 		PlayerInventory pi = p.getInventory();
 		FileConfiguration gc = Core.plugin.getConfig();
 		
+		//Checks to see if killed entity is a Player
 		if(Entity.equals(EntityType.PLAYER)){
 			if(!Globals.PlayerDrops){ede.getDrops().clear();}
 		}else{
 			if(!Globals.BothDrops){ ede.getDrops().clear(); };
 		}
 		
+		//Shows Killed Entity and What item is in config according to said Entity.
 		if(Globals.Debug){
 			p.sendMessage(Globals.Debug(Entity.name()));
 			p.sendMessage(Globals.Debug(gc.getString("eDrop.Mobs." + Entity.name() + ".Item")));
 		}
 		
-		Material m = Material.valueOf(gc.getString("eDrop.Mobs." + Entity.name() + ".Item"));
-		int a = gc.getInt("eDrop.Mobs." + Entity.name() + ".ItemAmount");
+		Material m = Material.valueOf(gc.getString("eDrop.Mobs." + Entity.name() + ".Item")); 	//Gets Mobs Item
+		int a = gc.getInt("eDrop.Mobs." + Entity.name() + ".ItemAmount");						//Gets Mobs Item Amount
 		
-		pi.addItem(new ItemStack(m, a));
+		pi.addItem(new ItemStack(m, a)); //Adds Item to Inventory of Player
 		
 	}
 	
@@ -71,6 +75,7 @@ public class MobDeath {
 		
 		FileConfiguration gc = Core.plugin.getConfig();
 		
+		//Shows Killed Entity Name and how much it is suppose to drop
 		if(Globals.Debug){
 			p.sendMessage(Globals.Debug(Entity.name()));
 			p.sendMessage(Globals.Debug(gc.getString("eDrop.Mobs." + Entity.name() + ".MoneyDrop")));
@@ -78,7 +83,10 @@ public class MobDeath {
 		
 		Double amount = gc.getDouble("eDrop.Mobs." + Entity.name() + ".MoneyDrop"); //Finds out how much money to give
 		
+		//Gives player said amount
 		Globals.economy.depositPlayer(p, amount);
+		
+		//Checks to see if MoneyDrop messages is enabled
 		if(Globals.MDMessages){
 			
 			if(amount <= 1){

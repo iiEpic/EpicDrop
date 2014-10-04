@@ -18,16 +18,18 @@ public class Listeners implements Listener{
 		if(p == null){return;}
 		if(!Globals.Enabled){return;}
 		
+		//Checks if HealthRegen is enabled
 		if(Globals.HealthRegen){
 			regenHealth(p, e);
 		}
 		
-		
+		//Check if MoneyDrop is enabled
 		if(Globals.MoneyDrop){
 			Player pl = Bukkit.getPlayer(p.getUniqueId());
-			MobDeath.addMoney(e.getEntityType(), pl, e);
+			MobDeath.addMoney(e.getEntityType(), pl, e); //Adds money to players accound according to MobDeath.addmoney result
 		}
 		
+		//Checks to see if Inventory Placing is enabled or not
 		if(Globals.InventoryPlacing){
 			MobDeath.checkMobInventoy(e.getEntityType(), p, e);
 			return;
@@ -42,32 +44,43 @@ public class Listeners implements Listener{
 	public void onMobSpawn(CreatureSpawnEvent e){
 		if(!Globals.Enabled){return;}
 		
-		String MobName = e.getEntityType().name();
-		Environment Environment = e.getEntity().getWorld().getEnvironment();
+		String MobName = e.getEntityType().name(); //Sets the spawned mob to MobName
+		Environment Environment = e.getEntity().getWorld().getEnvironment(); //Sets the spawned mobs environment to Environment
 		
-		MobSpawn.checkMob(e.getEntity(), MobName, Environment);
+		MobSpawn.checkMob(e.getEntity(), MobName, Environment); //Checks to see if CustomHealth is enabled and what the health should be
 		
+		//Shows what Mob was spawned
 		if(Globals.Debug){
-			Bukkit.broadcastMessage("[Debug]: " + e.getEntityType().name());
+			Bukkit.broadcastMessage(Globals.Debug(e.getEntityType().name()));
 		}
 		
 	}
 	
-	
+	//Health Regeneration Method
 	public void regenHealth(Player p, EntityDeathEvent e){
 		
 		Damageable dp = p; //Sets Player to Damageable to get Health
 	    double oldHealth = dp.getHealth(); //Sets oldHealth Variable to players current health
-	    double addedHealth = Core.plugin.getConfig().getDouble("eDrop.Mobs." + e.getEntityType().name() + ".RegenAmt");
+	    double addedHealth = Core.plugin.getConfig().getDouble("eDrop.Mobs." + e.getEntityType().name() + ".RegenAmt"); //Retrieves regen amount
 		
-	    double newHealth = oldHealth + addedHealth;
+	    double newHealth = oldHealth + addedHealth; //Creates new health
 	    
+	    //Checks to see if NewHealth is over the Maximum of 20.0
 	    if(newHealth >= 20.0){
 	    	newHealth = 20.0;
 	    }
-	    p.setHealth(newHealth);
 	    
+	    p.setHealth(newHealth); //Sets players new health
+	    
+	    
+	    //Checks if HealthRegen messages are enabled and the old health doesn't equal the new health
 	    if(Globals.HRMessages && newHealth != oldHealth){
+	    	
+	    	// Debug message shows how much health was added
+	    	if(Globals.Debug){
+		    	p.sendMessage(Globals.Debug("Health Regen by " + addedHealth));
+		    }
+	    	
 	    	p.sendMessage("Your health regenerated a little!");
 	    }
 		
