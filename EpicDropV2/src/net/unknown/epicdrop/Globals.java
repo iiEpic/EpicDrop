@@ -11,7 +11,7 @@ public class Globals {
 	public static int MajorBuild = 1;
 	public static int MinorBuild = 2;
 	public static int Revision = 0;
-	public static String Build = "000-20141004-1418";
+	public static String Build = "000-20141025-2100";
 	public static String Special = "";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
@@ -33,6 +33,7 @@ public class Globals {
 	// Economy Vault Variables
 	public static Economy economy = null;
 	public static boolean VaultEnabled;
+	
 	
 	/** Displays the Version (4 Formats)
 	 * @param type The different format of how Version is displayed.

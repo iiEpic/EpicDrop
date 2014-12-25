@@ -73,6 +73,9 @@ public class Core extends JavaPlugin {
         PluginManager p = this.getServer().getPluginManager();
         p.registerEvents(new Listeners(), this);
         
+        //Add mobs to list
+        ItemsMobs.addMobNames();
+        
         //Checks to see if Vault is installed on server
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
             getLogger().info("Detected Vault!");
@@ -121,7 +124,7 @@ public class Core extends JavaPlugin {
 			if(args.length <= 0){
 				sender.sendMessage(Globals.name +
 						"Invalid command. Use the following."
-						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload "
+						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 						+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
 						+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 				return true;
@@ -320,11 +323,51 @@ public class Core extends JavaPlugin {
 				}
 				
 				
+				//All below are Config Editing Commands
+				if(args[0].equalsIgnoreCase("edit")){
+					
+					
+					if(args.length >= 2){
+						
+						if(ItemsMobs.checkMob(args[1].toUpperCase())){
+							if(Globals.Debug){
+								sender.sendMessage(Globals.Debug(args[1].toUpperCase()));
+							}
+							if(args.length >= 3){
+								if(args[2].equalsIgnoreCase("item")){
+									sender.sendMessage(Globals.Debug("Item"));
+								}
+								if(args[2].equalsIgnoreCase("itemamount")){
+									sender.sendMessage(Globals.Debug("ItemAmount"));
+								}
+								if(args[2].equalsIgnoreCase("moneydrop")){
+									sender.sendMessage(Globals.Debug("MoneyDrop"));
+								}
+								if(args[2].equalsIgnoreCase("regenamt")){
+									sender.sendMessage(Globals.Debug("RegenAmt"));
+								}
+								if(args[2].equalsIgnoreCase("health")){
+									sender.sendMessage(Globals.Debug("Health"));
+								}
+								
+							}
+						}
+					}
+					sender.sendMessage(Globals.name + "Invalid Command. Use the Following: \n"
+							+ "/edrop edit <mobname> item <itemname> \n"
+							+ "/edrop edit <mobname> itemamount <amount> \n"
+							+ "/edrop edit <mobname> moneydrop <amount> \n"
+							+ "/edrop edit <mobname> regenamt <amount> \n"
+							+ "/edrop edit <mobname> health <nether/normal> <amount>");
+					return true;
+				}
+				
+				
 			}
 			//Displays all commands when player enters a wrong command.
 			sender.sendMessage(Globals.name +
 					"Invalid command. Use the following."
-					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload "
+					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 					+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
 					+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 			
@@ -334,6 +377,12 @@ public class Core extends JavaPlugin {
 		
 		return false;
 	}
+    
+    public static boolean checkName(String s){
+    	
+    	return false;
+    }
+    
     	
     public static String CheckState(Boolean s){
     	String state;
