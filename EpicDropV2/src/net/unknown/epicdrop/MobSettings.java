@@ -80,6 +80,14 @@ public class MobSettings {
 			gc.set("eDrop.Mobs.ENDERMAN.CustomHealth.Normal", 40.0);
 			gc.set("eDrop.Mobs.ENDERMAN.CustomHealth.Nether", 40.0);
 		}
+		if(gc.get("eDrop.Mobs.ENDERMITE") == null){
+			gc.set("eDrop.Mobs.ENDERMITE.Item", "APPLE");
+			gc.set("eDrop.Mobs.ENDERMITE.ItemAmount", 1);
+			gc.set("eDrop.Mobs.ENDERMITE.MoneyDrop", 4.0);
+			gc.set("eDrop.Mobs.ENDERMITE.RegenAmt", 2.0);
+			gc.set("eDrop.Mobs.ENDERMITE.CustomHealth.Normal", 8.0);
+			gc.set("eDrop.Mobs.ENDERMITE.CustomHealth.Nether", 8.0);
+		}
 		if(gc.get("eDrop.Mobs.GHAST") == null){
 			gc.set("eDrop.Mobs.GHAST.Item", "APPLE");
 			gc.set("eDrop.Mobs.GHAST.ItemAmount", 1);
@@ -95,6 +103,14 @@ public class MobSettings {
 			gc.set("eDrop.Mobs.GIANT.RegenAmt", 2.0);
 			gc.set("eDrop.Mobs.GIANT.CustomHealth.Normal", 20.0);
 			gc.set("eDrop.Mobs.GIANT.CustomHealth.Nether", 20.0);
+		}
+		if(gc.get("eDrop.Mobs.GUARDIAN") == null){
+			gc.set("eDrop.Mobs.GUARDIAN.Item", "APPLE");
+			gc.set("eDrop.Mobs.GUARDIAN.ItemAmount", 1);
+			gc.set("eDrop.Mobs.GUARDIAN.MoneyDrop", 2.5);
+			gc.set("eDrop.Mobs.GUARDIAN.RegenAmt", 2.0);
+			gc.set("eDrop.Mobs.GUARDIAN.CustomHealth.Normal", 30.0);
+			gc.set("eDrop.Mobs.GUARDIAN.CustomHealth.Nether", 30.0);
 		}
 		if(gc.get("eDrop.Mobs.HORSE") == null){
 			gc.set("eDrop.Mobs.HORSE.Item", "APPLE");
@@ -159,6 +175,14 @@ public class MobSettings {
 			gc.set("eDrop.Mobs.PLAYER.RegenAmt", 2.0);
 			gc.set("eDrop.Mobs.PLAYER.CustomHealth.Normal", 20.0);
 			gc.set("eDrop.Mobs.PLAYER.CustomHealth.Nether", 20.0);
+		}
+		if(gc.get("eDrop.Mobs.RABBIT") == null){
+			gc.set("eDrop.Mobs.RABBIT.Item", "APPLE");
+			gc.set("eDrop.Mobs.RABBIT.ItemAmount", 1);
+			gc.set("eDrop.Mobs.RABBIT.MoneyDrop", 2.5);
+			gc.set("eDrop.Mobs.RABBIT.RegenAmt", 2.0);
+			gc.set("eDrop.Mobs.RABBIT.CustomHealth.Normal", 10.0);
+			gc.set("eDrop.Mobs.RABBIT.CustomHealth.Nether", 10.0);
 		}
 		if(gc.get("eDrop.Mobs.SHEEP") == null){
 			gc.set("eDrop.Mobs.SHEEP.Item", "APPLE");

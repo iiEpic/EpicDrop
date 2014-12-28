@@ -10,9 +10,9 @@ public class Globals {
 	
 	public static int MajorBuild = 1;
 	public static int MinorBuild = 2;
-	public static int Revision = 0;
-	public static String Build = "000-20141025-2100";
-	public static String Special = "";
+	public static int Revision = 1;
+	public static String Build = "001-20141225-1445";
+	public static String Special = "Quick Patch!";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
 	// Command Variables //

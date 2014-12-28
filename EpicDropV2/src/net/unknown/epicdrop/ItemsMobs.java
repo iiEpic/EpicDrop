@@ -28,6 +28,7 @@ public class ItemsMobs {
 			Mobs.add("PIG");
 			Mobs.add("PIG_ZOMBIE");
 			Mobs.add("PLAYER");
+			Mobs.add("RABBIT");
 			Mobs.add("SHEEP");
 			Mobs.add("SILVERFISH");
 			Mobs.add("SKELETON");
