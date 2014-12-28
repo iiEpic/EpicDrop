@@ -114,6 +114,10 @@ public class Core extends JavaPlugin {
         return (Globals.economy != null);
     }
     
+    public static boolean isNumeric(String str)
+    {
+      return str.matches("-?\\d+(\\.\\d+)?");  //match a number with optional '-' and decimal.
+    }
     
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -125,7 +129,7 @@ public class Core extends JavaPlugin {
 				sender.sendMessage(Globals.name +
 						"Invalid command. Use the following."
 						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
-						+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
+						+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
 						+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 				return true;
 				
@@ -290,6 +294,39 @@ public class Core extends JavaPlugin {
 					
 				}
 				
+				//Turn on/off Messages
+				if(args[0].equalsIgnoreCase("message")){
+					if(args.length >=2){
+						if(args[1].equalsIgnoreCase("moneydrop")){
+							if(Globals.MDMessages){
+								Globals.MDMessages = false;
+								sender.sendMessage(Globals.name + "Money Drop messages have been turned off!");
+								return true;
+							}else{
+								Globals.MDMessages = true;
+								sender.sendMessage(Globals.name + "Money Drop messages have been turned on!");
+								return true;
+							}
+						}
+						if(args[1].equalsIgnoreCase("regen")){
+							if(Globals.HRMessages){
+								Globals.HRMessages = false;
+								sender.sendMessage(Globals.name + "Regen Health messages have been turned off!");
+								return true;
+							}else{
+								Globals.HRMessages = true;
+								sender.sendMessage(Globals.name + "Regen Health messages have been turned on!");
+								return true;
+							}
+						}
+						
+						sender.sendMessage(Globals.name + "Please use /edrop message <moneydrop/regen>");
+						return true;
+					}
+					sender.sendMessage(Globals.name + "Please use /edrop message <moneydrop/regen>");
+					return true;
+				}
+				
 				//Turns on/off Money Drops
 				if(args[0].equalsIgnoreCase("moneydrop")){
 					
@@ -334,31 +371,143 @@ public class Core extends JavaPlugin {
 								sender.sendMessage(Globals.Debug(args[1].toUpperCase()));
 							}
 							if(args.length >= 3){
+								
+								//Proceed to ask what Item to drop
 								if(args[2].equalsIgnoreCase("item")){
-									sender.sendMessage(Globals.Debug("Item"));
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("Item"));}
+									
+									return true;
 								}
+								
+								//Proceed with asking how much of the item to drop
 								if(args[2].equalsIgnoreCase("itemamount")){
-									sender.sendMessage(Globals.Debug("ItemAmount"));
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("ItemAmount"));}
+									
+									if(args.length >= 4){
+										
+										int itemAmt;
+										if(isNumeric(args[3].toString())){
+											itemAmt = Integer.parseInt(args[3]);
+										}else{
+											sender.sendMessage(Globals.name + "Please enter a valid Number! ie.10");
+											return true;
+										}
+										
+											if(itemAmt == (int)itemAmt){
+												if(Globals.Debug){sender.sendMessage(Globals.Debug("ItemAmount: " + itemAmt));}
+											
+												plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".ItemAmount", itemAmt);
+												saveConfig();
+												sender.sendMessage(Globals.name + "The ItemAmount for " + args[1].toString() + " was changed to " + itemAmt + "!");
+												return true;
+											}
+										}
+										sender.sendMessage(Globals.name + "Please enter a valid number!");
+										return true;
 								}
+								
+								//Proceed with asking how much money to drop
 								if(args[2].equalsIgnoreCase("moneydrop")){
-									sender.sendMessage(Globals.Debug("MoneyDrop"));
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("MoneyDrop"));}
+									
+									if(args.length >= 4){
+										
+										int moneyDrop;
+										if(isNumeric(args[3].toString())){
+											moneyDrop = Integer.parseInt(args[3]);
+										}else{
+											sender.sendMessage(Globals.name + "Please enter a valid Number! ie.10");
+											return true;
+										}
+										
+											if(moneyDrop == (int)moneyDrop){
+												if(Globals.Debug){sender.sendMessage(Globals.Debug("MoneyDrop: " + moneyDrop));}
+											
+												plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".MoneyDrop", moneyDrop);
+												saveConfig();
+												sender.sendMessage(Globals.name + "The MoneyDrop for " + args[1].toString() + " was changed to " + moneyDrop + "!");
+												return true;
+											}
+										}
+										sender.sendMessage(Globals.name + "Please enter a valid number!");
+										return true;
 								}
+								
+								//Proceed with asking how much health to regen
 								if(args[2].equalsIgnoreCase("regenamt")){
-									sender.sendMessage(Globals.Debug("RegenAmt"));
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("RegenAmt"));}
+									
+									if(args.length >= 4){
+										
+									int regenamt;
+									if(isNumeric(args[3].toString())){
+										regenamt = Integer.parseInt(args[3]);
+									}else{
+										sender.sendMessage(Globals.name + "Please enter a valid Number! ie.10");
+										return true;
+									}
+									
+										if(regenamt == (int)regenamt){
+											if(Globals.Debug){sender.sendMessage(Globals.Debug("RegenAmt: " + regenamt));}
+										
+											plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".RegenAmt", regenamt);
+											saveConfig();
+											sender.sendMessage(Globals.name + "The RegenAmt for " + args[1].toString() + " was changed to " + regenamt + "!");
+											return true;
+										}
+									}
+									sender.sendMessage(Globals.name + "Please enter a valid number!");
+									return true;
 								}
+								
+								//Proceed with asking how much health
 								if(args[2].equalsIgnoreCase("health")){
-									sender.sendMessage(Globals.Debug("Health"));
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("Health"));}
+									
+									int health;
+									if(isNumeric(args[3].toString())){
+										health = Integer.parseInt(args[3]);
+									}else{
+										sender.sendMessage(Globals.name + "Please enter a valid Number! ie.10");
+										return true;
+									}
+									
+									//Proceed with asking Normal/Nether
+									if(args.length >= 5){
+										if(health == (int)health){
+											if(Globals.Debug){sender.sendMessage(Globals.Debug("Health: " + health));}
+										
+											if(args[4].equalsIgnoreCase("normal") || args[4].equalsIgnoreCase("nether")){
+												plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".CustomHealth." + args[4].toUpperCase(), health);
+												saveConfig();
+												sender.sendMessage(Globals.name + "The health for " + args[1].toString() + " was changed to " + health + "!");
+												return true;
+											}
+											sender.sendMessage(Globals.name + "Please use either Normal or Nether");
+											return true;
+											
+										
+										}
+									}
+									
+									sender.sendMessage(Globals.name + "Please add either Normal or Nether!");
+									return true;
 								}
 								
 							}
+							sender.sendMessage(Globals.name + "Please use item/itemamount/moneydrop/regenamt or health.");
+							return true;
 						}
+						sender.sendMessage(Globals.name + "That isn't a valid mob!");
+						return true;
+						
 					}
 					sender.sendMessage(Globals.name + "Invalid Command. Use the Following: \n"
 							+ "/edrop edit <mobname> item <itemname> \n"
 							+ "/edrop edit <mobname> itemamount <amount> \n"
 							+ "/edrop edit <mobname> moneydrop <amount> \n"
 							+ "/edrop edit <mobname> regenamt <amount> \n"
-							+ "/edrop edit <mobname> health <nether/normal> <amount>");
+							+ "/edrop edit <mobname> health <amount> <nether/normal>");
 					return true;
 				}
 				
@@ -368,7 +517,7 @@ public class Core extends JavaPlugin {
 			sender.sendMessage(Globals.name +
 					"Invalid command. Use the following."
 					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
-					+ "\n/edrop inv \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
+					+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
 					+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
 			
 			return true;
@@ -377,12 +526,6 @@ public class Core extends JavaPlugin {
 		
 		return false;
 	}
-    
-    public static boolean checkName(String s){
-    	
-    	return false;
-    }
-    
     	
     public static String CheckState(Boolean s){
     	String state;
@@ -393,6 +536,13 @@ public class Core extends JavaPlugin {
     	}
     	
 		return state;
+    }
+    
+    public static double createDouble(int health){
+    	double newHealth;
+    	newHealth = (double)health;
+    	
+    	return newHealth;
     }
     
 }

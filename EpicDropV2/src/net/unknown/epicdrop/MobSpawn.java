@@ -36,7 +36,7 @@ public class MobSpawn {
 	//Method by which Nether healths are retrieved from Config file
 	public static double getCustomHealthNether(String mob){
 		double CustomHealthNether = 0;
-		CustomHealthNether = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.Nether");
+		CustomHealthNether = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.NETHER");
 		
 		return CustomHealthNether;
 	}
@@ -44,7 +44,7 @@ public class MobSpawn {
 	//Method by which Normal healths are retrieved from Config file
 	public static double getCustomHealthNormal(String mob){
 		double CustomHealthNormal = 0;
-		CustomHealthNormal = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.Normal");
+		CustomHealthNormal = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.NORMAL");
 		
 		return CustomHealthNormal;
 	}

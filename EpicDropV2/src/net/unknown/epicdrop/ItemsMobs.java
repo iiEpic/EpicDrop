@@ -18,8 +18,10 @@ public class ItemsMobs {
 			Mobs.add("CREEPER");
 			Mobs.add("ENDER_DRAGON");
 			Mobs.add("ENDERMAN");
+			Mobs.add("ENDERMITE");
 			Mobs.add("GHAST");
 			Mobs.add("GIANT");
+			Mobs.add("GUARDIAN");
 			Mobs.add("HORSE");
 			Mobs.add("IRON_GOLEM");
 			Mobs.add("MAGMA_CUBE");
