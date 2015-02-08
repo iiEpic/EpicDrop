@@ -23,7 +23,7 @@ public class MobSpawn {
 			Max = getCustomHealthNether(Mob); //Sets variable max to new health.
 		}
 		
-		if(Max == 0.0){
+		if(Max == 0){
 			Core.plugin.getLogger().info("[ERROR]: Mob, " + Mob + " doesn't have a set health!");
 			return;
 		}

@@ -45,6 +45,7 @@ public class MobSettings {
 			gc.set("eDrop.Mobs.CHICKEN.ItemAmount", 1);
 			gc.set("eDrop.Mobs.CHICKEN.MoneyDrop", 2.5);
 			gc.set("eDrop.Mobs.CHICKEN.RegenAmt", 2.0);
+			gc.set("eDrop.Mobs.CHICKEN.DropPercent", 5);
 			gc.set("eDrop.Mobs.CHICKEN.CustomHealth.NORMAL", 4.0);
 			gc.set("eDrop.Mobs.CHICKEN.CustomHealth.NETHER", 4.0);
 		}

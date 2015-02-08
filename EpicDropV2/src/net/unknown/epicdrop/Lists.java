@@ -3,7 +3,7 @@ package net.unknown.epicdrop;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ItemsMobs {
+public class Lists {
 
 	
 	// Mob Names
@@ -55,6 +55,20 @@ public class ItemsMobs {
 			return false;
 		}
 	
-	// Items
+	// Percentages
+		public static List<Integer> LuckyNumbers = new ArrayList<Integer>();
 		
+		public static void addNumbers(){
+			LuckyNumbers.addAll(Core.plugin.getConfig().getIntegerList("eDrop.Test"));
+		}
+		
+		public static void pushToConfig(){
+			Core.plugin.getConfig().set("eDrop.Test", LuckyNumbers.toString());
+		}
+		
+		public static String printNum(){
+			addNumbers();
+			pushToConfig();
+			return LuckyNumbers.toString();
+		}
 }

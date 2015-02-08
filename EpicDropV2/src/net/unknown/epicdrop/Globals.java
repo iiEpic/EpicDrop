@@ -1,5 +1,7 @@
 package net.unknown.epicdrop;
 
+import java.util.Random;
+
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
@@ -9,10 +11,10 @@ public class Globals {
 	public static int Player;
 	
 	public static int MajorBuild = 1;
-	public static int MinorBuild = 3;
+	public static int MinorBuild = 4;
 	public static int Revision = 0;
-	public static String Build = "002-20141227-1915";
-	public static String Special = "1.8 Update!";
+	public static String Build = "001-20150115-1055";
+	public static String Special = "Our Big Update! - Beta";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
 	// Command Variables //
@@ -29,6 +31,7 @@ public class Globals {
 	public static boolean MDMessages;
 	public static boolean HealthRegen;
 	public static boolean HRMessages;
+	public static boolean Percentages;
 	
 	// Economy Vault Variables
 	public static Economy economy = null;
@@ -65,10 +68,34 @@ public class Globals {
 		return VM;
 	}
 	
-	//Debug Method
+	// Debug Method
 	public static String Debug(String message){
 		message = Globals.name + "[Debug] " + message;
 		return message;
 	}
 	
+	// RandomNumber
+	public static int randInt(int min, int max) {
+
+	    // NOTE: Usually this should be a field rather than a method
+	    // variable so that it is not re-seeded every call.
+	    Random rand = new Random();
+
+	    // nextInt is normally exclusive of the top value,
+	    // so add 1 to make it inclusive
+	    int randomNum = rand.nextInt((max - min) + 1) + min;
+
+	    return randomNum;
+	}
+	
+	// Check Percentages
+	public static boolean PercentCheck(int percent, String Mob){
+		
+		if(5 <= Globals.randInt(1, 100)){
+			
+			return true;
+		}
+		
+		return false;
+	}
 }

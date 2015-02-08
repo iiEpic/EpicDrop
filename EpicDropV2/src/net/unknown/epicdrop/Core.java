@@ -74,7 +74,7 @@ public class Core extends JavaPlugin {
         p.registerEvents(new Listeners(), this);
         
         //Add mobs to list
-        ItemsMobs.addMobNames();
+        Lists.addMobNames();
         
         //Checks to see if Vault is installed on server
         if (getServer().getPluginManager().getPlugin("Vault") != null) {
@@ -366,7 +366,7 @@ public class Core extends JavaPlugin {
 					
 					if(args.length >= 2){
 						
-						if(ItemsMobs.checkMob(args[1].toUpperCase())){
+						if(Lists.checkMob(args[1].toUpperCase())){
 							if(Globals.Debug){
 								sender.sendMessage(Globals.Debug(args[1].toUpperCase()));
 							}

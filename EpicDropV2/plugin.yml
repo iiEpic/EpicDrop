@@ -1,6 +1,6 @@
 name: EpicDrop
 main: net.unknown.epicdrop.Core
-version: '1.2.0'
+version: '1.4.0b'
 author: 'Unknown'
 softdepend: [Vault]
 
@@ -12,11 +12,15 @@ commands:
       permission-message: You don't have EpicServer.Admin.eDrop
 permissons:
    admin.*:
-       description: Gives acces to all EpicDrop commands.
+       description: Gives access to all EpicDrop commands.
        children:
             admin.edrop: true
             admin.drops: true
             admin.reload: true
+            admin.config: true
+   admin.config:
+       description: Allows you to edit config In-Game through /edrop edit command.
+       default: op
    admin.edrop:
        description: Allows you to turn on/off EpicDrop.
        default: op
