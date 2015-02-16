@@ -26,7 +26,7 @@ public class Listeners implements Listener{
 		//Check if MoneyDrop is enabled
 		if(Globals.MoneyDrop){
 			Player pl = Bukkit.getPlayer(p.getUniqueId());
-			MobDeath.addMoney(e.getEntityType(), pl, e); //Adds money to players accound according to MobDeath.addmoney result
+			MobDeath.addMoney(e.getEntityType(), pl, e); //Adds money to players account according to MobDeath.addmoney result
 		}
 		
 		//Checks to see if Inventory Placing is enabled or not

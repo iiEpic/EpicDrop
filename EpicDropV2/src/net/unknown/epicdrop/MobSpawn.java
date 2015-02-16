@@ -21,6 +21,11 @@ public class MobSpawn {
 			if(!Globals.CustomHealthNether){return;}
 			
 			Max = getCustomHealthNether(Mob); //Sets variable max to new health.
+		}else if(Env.equals(Environment.THE_END)){
+			//Checks to see if Custom Health is enabled in the Nether World
+			if(!Globals.CustomHealthEnd){return;}
+			
+			Max = getCustomHealthEnd(Mob); //Sets variable max to new health.
 		}
 		
 		if(Max == 0){
@@ -48,4 +53,12 @@ public class MobSpawn {
 		
 		return CustomHealthNormal;
 	}
+	
+	//Method by which The End healths are retrieved from Config file
+		public static double getCustomHealthEnd(String mob){
+			double CustomHealthEnd = 0;
+			CustomHealthEnd = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.THE_END");
+			
+			return CustomHealthEnd;
+		}
 }

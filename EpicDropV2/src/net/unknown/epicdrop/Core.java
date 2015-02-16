@@ -30,6 +30,7 @@ public class Core extends JavaPlugin {
 			getConfig().set("eDrop.Messages.HealthRegen", true);
 			getConfig().set("eDrop.CustomHealth.Normal", false);
 			getConfig().set("eDrop.CustomHealth.Nether", false);
+			getConfig().set("eDrop.CustomHealth.The_End", false);
 		}
 		
 		Globals.Enabled 			= getConfig().getBoolean("eDrop.Enabled");
@@ -45,6 +46,7 @@ public class Core extends JavaPlugin {
 		Globals.ResetAll			= getConfig().getBoolean("eDrop.ResetAll");
 		Globals.CustomHealthNormal	= getConfig().getBoolean("eDrop.CustomHealth.Normal");
 		Globals.CustomHealthNether	= getConfig().getBoolean("eDrop.CustomHealth.Nether");
+		Globals.CustomHealthEnd		= getConfig().getBoolean("eDrop.CustomHealth.The_End");
 		
 		
 	}
@@ -62,6 +64,7 @@ public class Core extends JavaPlugin {
     	getConfig().set("eDrop.ResetAll", Globals.ResetAll);
     	getConfig().set("eDrop.CustomHealth.Normal", Globals.CustomHealthNormal);
     	getConfig().set("eDrop.CustomHealth.Nether", Globals.CustomHealthNether);
+    	getConfig().set("eDrop.CustomHealth.The_End", Globals.CustomHealthEnd);
 		
 	}
 	
@@ -130,7 +133,7 @@ public class Core extends JavaPlugin {
 						"Invalid command. Use the following."
 						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 						+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
-						+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
+						+ "\n/edrop health \n/edrop resetall \n/edrop debug");
 				return true;
 				
 			}else{
@@ -182,7 +185,8 @@ public class Core extends JavaPlugin {
 						+ 	"PlayerDrops: " + CheckState(Globals.PlayerDrops) + "\n"
 						+	"InventoryPlacing: " + CheckState(Globals.InventoryPlacing) + "\n"
 						+	"CustomHealth Normal: " + CheckState(Globals.CustomHealthNormal) + "\n"
-						+	"CustomHealth Nether: " + CheckState(Globals.CustomHealthNether));
+						+	"CustomHealth Nether: " + CheckState(Globals.CustomHealthNether) + "\n"
+						+	"CustomHealth The_End: " + CheckState(Globals.CustomHealthEnd));
 					return true; 
 				}
 				
@@ -261,6 +265,20 @@ public class Core extends JavaPlugin {
 								return true;
 							}
 						}
+						if(args[1].equalsIgnoreCase("End")){
+							if(Globals.CustomHealthEnd){
+								Globals.CustomHealthEnd = false;
+								sender.sendMessage(Globals.name + "CustomHealth for The_End world has been disabled!");
+								return true;
+							}else{
+								Globals.CustomHealthEnd = true;
+								sender.sendMessage(Globals.name + "CustomHealth for The_End world has been enabled!");
+								return true;
+							}
+						}
+					}else{
+						sender.sendMessage(Globals.name + "Please use /edrop health <normal/nether/end>");
+						return true;
 					}
 				}
 				
@@ -518,7 +536,7 @@ public class Core extends JavaPlugin {
 					"Invalid command. Use the following."
 					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 					+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
-					+ "\n/edrop health normal \n/edrop health nether \n/edrop resetall \n/edrop debug");
+					+ "\n/edrop health \n/edrop resetall \n/edrop debug");
 			
 			return true;
 			

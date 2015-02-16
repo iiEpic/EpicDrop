@@ -11,10 +11,10 @@ public class Globals {
 	public static int Player;
 	
 	public static int MajorBuild = 1;
-	public static int MinorBuild = 4;
-	public static int Revision = 0;
-	public static String Build = "001-20150115-1055";
-	public static String Special = "Our Big Update! - Beta";
+	public static int MinorBuild = 3;
+	public static int Revision = 1;
+	public static String Build = "031-20150215-2135";
+	public static String Special = "Patch for MobNoHealth Error";
 	public static String name = "[" + ChatColor.DARK_GRAY + "Epic" + ChatColor.LIGHT_PURPLE + "Drop" + ChatColor.RESET + "] ";
 	
 	// Command Variables //
@@ -27,6 +27,7 @@ public class Globals {
 	public static boolean Debug;
 	public static boolean CustomHealthNormal;
 	public static boolean CustomHealthNether;
+	public static boolean CustomHealthEnd;
 	public static boolean MoneyDrop;
 	public static boolean MDMessages;
 	public static boolean HealthRegen;
