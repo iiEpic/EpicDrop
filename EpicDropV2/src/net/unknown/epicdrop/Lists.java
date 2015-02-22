@@ -9,6 +9,8 @@ public class Lists {
 	// Mob Names
 		public static List<String> Mobs = new ArrayList<String>();
 		
+		
+		/**Adds Mobs Name to a list to check for Drops/Healths/Etc. */
 		public static void addMobNames(){
 			Mobs.add("BAT");
 			Mobs.add("BLAZE");
@@ -46,6 +48,9 @@ public class Lists {
 			Mobs.add("ZOMBIE");
 		}
 		
+		
+		/**Checks to see if said Mob is in the List
+		 * @return True = Found</br>False = Not Found*/
 		public static boolean checkMob(String mob){
 			 
 			if(Mobs.contains(mob)){
@@ -54,21 +59,5 @@ public class Lists {
 			
 			return false;
 		}
-	
-	// Percentages
-		public static List<Integer> LuckyNumbers = new ArrayList<Integer>();
-		
-		public static void addNumbers(){
-			LuckyNumbers.addAll(Core.plugin.getConfig().getIntegerList("eDrop.Test"));
-		}
-		
-		public static void pushToConfig(){
-			Core.plugin.getConfig().set("eDrop.Test", LuckyNumbers.toString());
-		}
-		
-		public static String printNum(){
-			addNumbers();
-			pushToConfig();
-			return LuckyNumbers.toString();
-		}
+
 }

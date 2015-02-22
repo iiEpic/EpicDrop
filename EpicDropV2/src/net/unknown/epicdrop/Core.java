@@ -5,6 +5,7 @@ import java.io.IOException;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -24,6 +25,7 @@ public class Core extends JavaPlugin {
 			getConfig().set("eDrop.PlayerDrops", true);
 			getConfig().set("eDrop.MoneyDrop", true);
 			getConfig().set("eDrop.HealthRegen", true);
+			getConfig().set("eDrop.Percentages", false);
 			getConfig().set("eDrop.Setup", false);
 			getConfig().set("eDrop.ResetAll", true);
 			getConfig().set("eDrop.Messages.MoneyDrop", true);
@@ -40,6 +42,7 @@ public class Core extends JavaPlugin {
 		Globals.MoneyDrop			= getConfig().getBoolean("eDrop.MoneyDrop");
 		Globals.MDMessages			= getConfig().getBoolean("eDrop.Messages.MoneyDrop");
 		Globals.HealthRegen			= getConfig().getBoolean("eDrop.HealthRegen");
+		Globals.Percentages			= getConfig().getBoolean("eDrop.Percentages");
 		Globals.HRMessages			= getConfig().getBoolean("eDrop.Messages.HealthRegen");
 		Globals.Debug				= false;
 		Globals.Setup				= getConfig().getBoolean("eDrop.Setup");
@@ -58,6 +61,7 @@ public class Core extends JavaPlugin {
     	getConfig().set("eDrop.PlayerDrops", Globals.PlayerDrops);
     	getConfig().set("eDrop.MoneyDrop", Globals.MoneyDrop);
     	getConfig().set("eDrop.HealthRegen", Globals.HealthRegen);
+    	getConfig().set("eDrop.Percentages", Globals.Percentages);
     	getConfig().set("eDrop.Setup", Globals.Setup);
     	getConfig().set("eDrop.Messages.MoneyDrop", Globals.MDMessages);
     	getConfig().set("eDrop.Messages.HealthRegen", Globals.HRMessages);
@@ -133,7 +137,7 @@ public class Core extends JavaPlugin {
 						"Invalid command. Use the following."
 						+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 						+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
-						+ "\n/edrop health \n/edrop resetall \n/edrop debug");
+						+ "\n/edrop health \n/edrop percent \n/edrop resetall \n/edrop debug");
 				return true;
 				
 			}else{
@@ -182,6 +186,7 @@ public class Core extends JavaPlugin {
 						+   "BothDrops: " + CheckState(Globals.BothDrops) + "\n"
 						+   "MoneyDrop: " + CheckState(Globals.MoneyDrop) + "\n"
 						+	"HealthRegen: " + CheckState(Globals.HealthRegen) + "\n"
+						+	"Percentages: " + CheckState(Globals.Percentages) + "\n"
 						+ 	"PlayerDrops: " + CheckState(Globals.PlayerDrops) + "\n"
 						+	"InventoryPlacing: " + CheckState(Globals.InventoryPlacing) + "\n"
 						+	"CustomHealth Normal: " + CheckState(Globals.CustomHealthNormal) + "\n"
@@ -377,6 +382,18 @@ public class Core extends JavaPlugin {
 					}
 				}
 				
+				//Turns on/off Percentages
+				if(args[0].equalsIgnoreCase("percent")){
+					if(Globals.Percentages){ 
+						Globals.Percentages = false;
+						sender.sendMessage(Globals.name + "Percentages has been Disabled!");
+						return true;
+					}else{ 
+						Globals.Percentages = true;
+						sender.sendMessage(Globals.name + "Percentages has been Enabled!");
+						return true;
+					}
+				}
 				
 				//All below are Config Editing Commands
 				if(args[0].equalsIgnoreCase("edit")){
@@ -393,6 +410,32 @@ public class Core extends JavaPlugin {
 								//Proceed to ask what Item to drop
 								if(args[2].equalsIgnoreCase("item")){
 									if(Globals.Debug){sender.sendMessage(Globals.Debug("Item"));}
+									
+									if(args.length >= 4){
+										if(args[3].equalsIgnoreCase("add")){
+											if(args.length >= 5){
+												int amount = Integer.parseInt(args[5]);
+												args[4] = args[4].toUpperCase();
+												sender.sendMessage(Globals.name + Material.getMaterial(args[4]) + " was added to " + args[1].toUpperCase());
+												Storage.add(args[1].toUpperCase(), Storage.createItemStack(Material.getMaterial(args[4]), amount));
+												sender.sendMessage(Globals.name + Material.getMaterial(args[4]) + " was added to " + args[1].toUpperCase());
+											}
+											sender.sendMessage(Globals.name + "Please use /edrop edit <mob> item add <itemid> <amount>");
+											return true;
+										}
+										
+										if(args[3].equalsIgnoreCase("remove")){
+											if(args.length >= 5){
+												
+											}
+											sender.sendMessage(Globals.name + "Please use /edrop edit <mob> item remove <itemid>");
+											return true;
+										}
+										
+										sender.sendMessage(Globals.name + "Please use /edrop edit <mob> item <add/remove> <itemid>");
+										return true;
+									}
+									sender.sendMessage(Globals.name + "Please use /edrop edit <mob> item <add/remove> <itemid>");
 									
 									return true;
 								}
@@ -422,6 +465,36 @@ public class Core extends JavaPlugin {
 										}
 										sender.sendMessage(Globals.name + "Please enter a valid number!");
 										return true;
+								}
+								
+								//Proceed to ask what percent to have
+								if(args[2].equalsIgnoreCase("percent")){
+									if(Globals.Debug){sender.sendMessage(Globals.Debug("Percent"));}
+									
+									if(args.length >= 4){
+										
+										int percent;
+										if(isNumeric(args[3].toString())){
+											percent = Integer.parseInt(args[3]);
+										}else{
+											sender.sendMessage(Globals.name + "Please enter a valid Number! 0-100");
+											return true;
+										}
+										
+										if(percent == (int)percent && percent <= 100 && percent >=0){
+											if(Globals.Debug){sender.sendMessage(Globals.Debug("Percentage: " + percent));}
+										
+											plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".Percent", percent);
+											saveConfig();
+											sender.sendMessage(Globals.name + "The Percentage for " + args[1].toString() + " was changed to " + percent + "!");
+											return true;
+										}
+										sender.sendMessage(Globals.name + "Please enter a valid number 0-100!");
+										return true;
+									}
+									sender.sendMessage(Globals.name + "Please enter a valid number 0-100!");
+									return true;
+									
 								}
 								
 								//Proceed with asking how much money to drop
@@ -482,6 +555,11 @@ public class Core extends JavaPlugin {
 								if(args[2].equalsIgnoreCase("health")){
 									if(Globals.Debug){sender.sendMessage(Globals.Debug("Health"));}
 									
+									if(args.length <= 3){
+										sender.sendMessage(Globals.name + "Please add a health amount!");
+										return true;
+									}
+									
 									int health;
 									if(isNumeric(args[3].toString())){
 										health = Integer.parseInt(args[3]);
@@ -490,30 +568,33 @@ public class Core extends JavaPlugin {
 										return true;
 									}
 									
-									//Proceed with asking Normal/Nether
+									//Proceed with asking Normal/Nether/End
 									if(args.length >= 5){
 										if(health == (int)health){
 											if(Globals.Debug){sender.sendMessage(Globals.Debug("Health: " + health));}
 										
-											if(args[4].equalsIgnoreCase("normal") || args[4].equalsIgnoreCase("nether")){
+											if(args[4].equalsIgnoreCase("normal") || args[4].equalsIgnoreCase("nether") || args[4].equalsIgnoreCase("end")){
+												
+												if(args[4].equalsIgnoreCase("end")){args[4] = "THE_END";}
+												
 												plugin.getConfig().set("eDrop.Mobs." + args[1].toUpperCase() + ".CustomHealth." + args[4].toUpperCase(), health);
 												saveConfig();
-												sender.sendMessage(Globals.name + "The health for " + args[1].toString() + " was changed to " + health + "!");
+												sender.sendMessage(Globals.name + "The health for " + args[1].toString() + " was changed to " + health + " for " + args[4].toString() + "!");
 												return true;
 											}
-											sender.sendMessage(Globals.name + "Please use either Normal or Nether");
+											sender.sendMessage(Globals.name + "Please use Normal / Nether / End");
 											return true;
 											
 										
 										}
 									}
 									
-									sender.sendMessage(Globals.name + "Please add either Normal or Nether!");
+									sender.sendMessage(Globals.name + "Please add Normal / Nether / End!");
 									return true;
 								}
 								
 							}
-							sender.sendMessage(Globals.name + "Please use item/itemamount/moneydrop/regenamt or health.");
+							sender.sendMessage(Globals.name + "Please use item/itemamount/percent/moneydrop/regenamt or health.");
 							return true;
 						}
 						sender.sendMessage(Globals.name + "That isn't a valid mob!");
@@ -521,11 +602,12 @@ public class Core extends JavaPlugin {
 						
 					}
 					sender.sendMessage(Globals.name + "Invalid Command. Use the Following: \n"
-							+ "/edrop edit <mobname> item <itemname> \n"
+							+ "/edrop edit <mobname> item <[add]/remove> <itemid> [amount]\n"
 							+ "/edrop edit <mobname> itemamount <amount> \n"
 							+ "/edrop edit <mobname> moneydrop <amount> \n"
 							+ "/edrop edit <mobname> regenamt <amount> \n"
-							+ "/edrop edit <mobname> health <amount> <nether/normal>");
+							+ "/edrop edit <mobname> percent <amount> \n"
+							+ "/edrop edit <mobname> health <amount> <nether/normal/end>");
 					return true;
 				}
 				
@@ -536,7 +618,7 @@ public class Core extends JavaPlugin {
 					"Invalid command. Use the following."
 					+ "\n/edrop on \n/edrop off \n/edrop status \n/edrop reload \n/edrop edit"
 					+ "\n/edrop inv \n/edrop message \n/edrop moneydrop \n/edrop BothDrops \n/edrop Playerdrops \n/edrop healthregen "
-					+ "\n/edrop health \n/edrop resetall \n/edrop debug");
+					+ "\n/edrop health \n/edrop percent \n/edrop resetall \n/edrop debug");
 			
 			return true;
 			
@@ -544,7 +626,11 @@ public class Core extends JavaPlugin {
 		
 		return false;
 	}
-    	
+    
+    /** Returns on/off state for status command 
+     * @return String of On or Off
+     * @param s - The boolean being checked
+     * */	
     public static String CheckState(Boolean s){
     	String state;
     	if(s == true){
@@ -554,13 +640,6 @@ public class Core extends JavaPlugin {
     	}
     	
 		return state;
-    }
-    
-    public static double createDouble(int health){
-    	double newHealth;
-    	newHealth = (double)health;
-    	
-    	return newHealth;
     }
     
 }

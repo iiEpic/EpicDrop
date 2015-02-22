@@ -1,11 +1,15 @@
 package net.unknown.epicdrop;
 
+import org.bukkit.Bukkit;
 import org.bukkit.World.Environment;
 import org.bukkit.entity.LivingEntity;
 
 public class MobSpawn {
 
-	//Checks where mob is spawned
+	/** Checks where mob is spawned 
+	 * @param LV = LivingEntity
+	 * @param Mob = Mobs Name
+	 * @param Env = Environment where mob spawned*/
 	public static void checkMob(LivingEntity LV, String Mob, Environment Env){
 		double Max = 0.0;
 		
@@ -28,8 +32,13 @@ public class MobSpawn {
 			Max = getCustomHealthEnd(Mob); //Sets variable max to new health.
 		}
 		
+		/*Shows MobName, World, and Health */
+		if(Globals.Debug){
+			Bukkit.getLogger().info(Globals.Debug("MobName: " + Mob + "\nHealth: " + (Max/2) + "\nWorldName: " + LV.getWorld().getName()));
+		}
+		
 		if(Max == 0){
-			Core.plugin.getLogger().info("[ERROR]: Mob, " + Mob + " doesn't have a set health!");
+			Core.plugin.getLogger().info("[ERROR]: Mob, " + Mob + " doesn't have a set health in world: " + LV.getWorld().getName());
 			return;
 		}
 		
@@ -38,7 +47,7 @@ public class MobSpawn {
 		
 	}
 	
-	//Method by which Nether healths are retrieved from Config file
+	/**Method by which Nether healths are retrieved from Config file */
 	public static double getCustomHealthNether(String mob){
 		double CustomHealthNether = 0;
 		CustomHealthNether = Core.plugin.getConfig().getDouble("eDrop.Mobs." + mob + ".CustomHealth.NETHER");

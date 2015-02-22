@@ -40,6 +40,8 @@ public class MobDeath {
 		Material 	m = Material.valueOf(gc.getString("eDrop.Mobs." + Entity.name() + ".Item")); 	// Gets Mobs Item
 		int 		a = gc.getInt("eDrop.Mobs." + Entity.name() + ".ItemAmount");					// Gets Mobs Item Amount
 		
+		// e.getDrops().addAll(Storage.get(e.getEntityType().name()));
+		
 		e.getDrops().add(new ItemStack(m,a)); // Sets the Mobs Drop		
 		
 	}
@@ -88,6 +90,11 @@ public class MobDeath {
 		
 		//Checks to see if MoneyDrop messages is enabled
 		if(Globals.MDMessages){
+			
+			//If the money being dropped is 0 then no message will appear.
+			if(amount == 0){
+				return;
+			}
 			
 			if(amount <= 1){
 				p.sendMessage(ChatColor.GREEN + "" + amount + " " + Globals.economy.currencyNameSingular() + ChatColor.RESET + " added to your account!");

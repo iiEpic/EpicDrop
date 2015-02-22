@@ -18,6 +18,14 @@ public class Listeners implements Listener{
 		if(p == null){return;}
 		if(!Globals.Enabled){return;}
 		
+		//Checks if percentages is enabled and if the percent is within custom amount
+		if(Globals.Percentages){
+			if(!Globals.PercentCheck(e.getEntityType().name())){
+				p.sendMessage(Globals.name + "Mob, " + e.getEntityType().name() + "'s percent is not between 0-100!");
+				return;
+			}
+		}
+		
 		//Checks if HealthRegen is enabled
 		if(Globals.HealthRegen){
 			regenHealth(p, e);
@@ -48,11 +56,6 @@ public class Listeners implements Listener{
 		Environment Environment = e.getEntity().getWorld().getEnvironment(); //Sets the spawned mobs environment to Environment
 		
 		MobSpawn.checkMob(e.getEntity(), MobName, Environment); //Checks to see if CustomHealth is enabled and what the health should be
-		
-		//Shows what Mob was spawned
-		if(Globals.Debug){
-			Bukkit.broadcastMessage(Globals.Debug(e.getEntityType().name()));
-		}
 		
 	}
 	

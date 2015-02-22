@@ -8,25 +8,25 @@ commands:
     edrop:
       description: This is the basic on/off command.
       usage: /edrop
-      permission: EpicServer.Admin.eDrop
-      permission-message: You don't have EpicServer.Admin.eDrop
+      permission: edrop.*
+      permission-message: You don't have edrop.*
 permissons:
-   admin.*:
+   edrop.*:
        description: Gives access to all EpicDrop commands.
        children:
-            admin.edrop: true
-            admin.drops: true
-            admin.reload: true
-            admin.config: true
-   admin.config:
+            edrop.config: true
+            edrop.toggle: true
+            edrop.drops: true
+            edrop.reload: true
+   edrop.config:
        description: Allows you to edit config In-Game through /edrop edit command.
        default: op
-   admin.edrop:
+   edrop.toggle:
        description: Allows you to turn on/off EpicDrop.
        default: op
-   admin.drops:
+   edrop.drops:
        description: Allows you to turn on/off Drops.
        default: op
-   admin.reload:
+   edrop.reload:
        description: Allows you to reload the plugin.
        default: op
